@@ -16,15 +16,16 @@ const run = async () => {
   try {
     const db = client.db("jobBox");
     const userCollection = db.collection("user");
+    const jobCollection = db.collection("job");
 
-    app.get('/users', async (req, res) => {
-      const cursor = userCollection.find({});
-      const product = await cursor.toArray();
+    // app.get('/users', async (req, res) => {
+    //   const cursor = userCollection.find({});
+    //   const product = await cursor.toArray();
 
-      res.send({ status: true, data: product });
-    });
+    //   res.send({ status: true, data: product });
+    // });
 
-
+    //registering user
     app.post("/user", async (req, res) => {
       const user = req.body;
 
@@ -46,6 +47,16 @@ const run = async () => {
 
       res.send({ status: false });
     });
+
+    //posting job
+    app.post("/job", async (req, res) => {
+      const job = req.body;
+
+      const result = await jobCollection.insertOne(job);
+
+      res.send({ status: true, data: result });
+    });
+
   } finally {
   }
 };
